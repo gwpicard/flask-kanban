@@ -1,0 +1,305 @@
+{% extends "master.html" %}
+
+{% block title %}Kanban{% endblock %}
+
+{% block headertitle %}My Kanban{% endblock %}
+
+{% block header %}
+<div class="header-elem"><a id="add" href="#">Add new card</a> | <a id="save" href="#">Save</a> | <a id="logout" href="#">Log out</a></div>
+{% endblock %}
+
+{% block content %}
+<div class="pure-g" style="height: 80px;">
+    <div class="pure-u-1-3" style="text-align: center;">
+        <h1>To do</h1>
+    </div>
+    <div class="pure-u-1-3" style="text-align: center;">
+        <h1>In progress</h1>
+    </div>
+    <div class="pure-u-1-3" style="text-align: center;">
+        <h1>Done</h1>
+    </div>
+</div>
+<div class="pure-g kanban-container">
+    <div class="kanban-column kanban-to-do pure-u-1-3">
+        <!-- status 0 for tasks to do -->
+        {% if cards %}
+            {% for card in cards %}
+                {% if card.status == 0 %}
+                <div class="kanban-elem">
+                    <div id="{{ card.id }}" class="kanban-header">{{ card.header }}</div>
+                    <div class="kanban-description">
+                        <p>{{ card.desc }}</p>
+                    </div>
+                    <div class="delete">
+                        <a id="delete" href="#">Delete</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="kanban-column kanban-in-progress pure-u-1-3">
+        <!-- status 1 for tasks in progress -->
+        {% if cards %}
+            {% for card in cards %}
+                {% if card.status == 1 %}
+                <div class="kanban-elem">
+                    <div id="{{ card.id }}" class="kanban-header">{{ card.header }}</div>
+                    <div class="kanban-description">
+                        <p>{{ card.desc }}</p>
+                    </div>
+                    <div class="delete">
+                        <a id="delete" href="#">Delete</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="kanban-column kanban-done pure-u-1-3">
+        <!-- status 2 for done tasks -->
+        {% if cards %}
+            {% for card in cards %}
+                {% if card.status == 2 %}
+                <div class="kanban-elem">
+                    <div id="{{ card.id }}" class="kanban-header">{{ card.header }}</div>
+                    <div class="kanban-description">
+                        <p>{{ card.desc }}</p>
+                    </div>
+                    <div class="delete">
+                        <a id="delete" href="#">Delete</a>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<div id="add-card-modal" style="display: none" align = "center">
+    <label for="header">Status</label>
+    <div class="input">
+        <select class="dropdown" name="task-status">
+          <option value=0>To do</option>
+          <option value=1>In Progress</option>
+          <option value=2>Done</option>
+        </select>
+    </div>
+    <label for="header">Header</label>
+    <div class="input">
+        <input name="header" size="20" type="text" value="">
+    </div>
+    <label for="desc">Description</label>
+    <div class="input">
+        <textarea name="desc" rows="4"></textarea>
+    </div>
+    <button id="add-card" class="button" style="float: right; margin: 5px;">Add</button>
+</div>
+<div class="footer">
+    <p>click and drag the headers to move the cards around</p>
+</div>
+{% endblock %}
+
+{% block pagescript %}
+<script>
+$(onPageLoad);
+
+function onPageLoad()
+{
+    $('.kanban-header').each(function(i, obj) {
+        var Class = $(this).parents('.kanban-column');
+        if (Class.hasClass('kanban-to-do')){
+            $(this).css({ 'background-color': '#4286f4'});
+        }
+        else if (Class.hasClass('kanban-in-progress')) {
+            $(this).css({ 'background-color': '#86f441'});
+        }
+        else {
+            $(this).css({ 'background-color': '#abb2a7'});
+        }
+    });
+
+    $( ".kanban-column" ).sortable({
+    connectWith: ".kanban-column",
+    handle: ".kanban-header",
+    start: function (event, ui) {
+      ui.item.addClass('tilt');
+    },
+    stop: function (event, ui) {
+      ui.item.removeClass('tilt');
+      var Class = ui.item.parent();//.context//.classList[1];
+      if (Class.hasClass('kanban-to-do')){
+          ui.item.children('div.kanban-header').css({ 'background-color': '#4286f4'});
+      }
+      else if (Class.hasClass('kanban-in-progress')) {
+          $(ui.item).children('div.kanban-header').css({ 'background-color': '#86f441'});
+      }
+      else {
+          $(ui.item).children('div.kanban-header').css({ 'background-color': '#abb2a7'});
+      }
+    }
+    });
+}
+
+// save cards function
+function saveCards(LOGOUT)
+{
+    // create array in which to save cards and status
+    var cards = [];
+
+    $(".kanban-elem").each(function(ind, el){
+        // get card id
+        cardID = $(this).children(":first").attr('id');
+        // get status from card
+        stat_raw = $(this).parents(':first').attr('class').split(" ")[1];
+        if (stat_raw === 'kanban-to-do'){
+            stat = 0;
+        } else if (stat_raw === 'kanban-in-progress') {
+            stat = 1;
+        } else {
+            stat = 2;
+        }
+        // get header from card
+        header = $(this).children(":first").text();
+        // get description from card
+        desc = $(this).children(":nth-child(2)").find('p').text();
+
+        card = {};
+        card["ID"] = cardID;
+        card["status"] = stat;
+        card["header"] = header;
+        card["desc"] = desc;
+
+        cards.push(card);
+    });
+
+    // send card data to flask to be saved/updated
+    $.ajax({
+      type: "POST",
+      contentType: "application/json; charset=utf-8",
+      url: "/save",
+      data: JSON.stringify(cards),
+      success: function () {
+        // logged successful card saving to console
+        console.log("Cards saved successfully");
+        // change id of newly added cards to reflect that they've
+        // been added to database
+        $(".kanban-elem").each(function(){
+            elem = $(this).children(":nth-child(1)");
+            elemid = $(this).children(":nth-child(1)").attr("id");
+            if (elemid == "N"){
+                elem.attr("id","added");
+            }
+        });
+        if (LOGOUT==1) {
+                window.location.href = "/logout"; // continue with normal logout route
+            }
+        },
+      dataType: "json"
+    });
+}
+
+// create jquery ui element for adding cards
+$("#add-card-modal").dialog({
+    modal: true,
+    autoOpen: false,
+    resizable: false,
+    title: "Add card",
+    width: 380,
+    height: 420,
+    open: function(event, ui)
+    {
+        $('.ui-widget-overlay').bind('click', function()
+        {
+            $("#add-card-modal").dialog('close');
+        });
+    }
+});
+
+// add card to kanban
+$(document).on("click", "#add-card", function(){
+    elem = $('#add-card-modal');
+    stat = elem.children(":nth-child(2)").find("select").val();
+    header = elem.children(":nth-child(4)").find("input").val();
+    desc = elem.children(":nth-child(6)").find("textarea").val();
+
+    if (stat == 0){
+        $( ".kanban-to-do" ).append('\
+        <div class="kanban-elem">\
+            <div id="N" class="kanban-header">'+header+'</div>\
+            <div class="kanban-description">\
+                <p>'+desc+'</p>\
+            </div>\
+            <div class="delete">\
+                <a id="delete" href="#">Delete</a>\
+            </div>\
+        </div>');
+    } else if (stat == 1) {
+        $( ".kanban-in-progress" ).append('\
+        <div class="kanban-elem">\
+            <div id="N" class="kanban-header" style="background-color: #86f441;">'+header+'</div>\
+            <div class="kanban-description">\
+                <p>'+desc+'</p>\
+            </div>\
+            <div class="delete">\
+                <a id="delete" href="#">Delete</a>\
+            </div>\
+        </div>');
+    } else {
+        $( ".kanban-done" ).append('\
+        <div class="kanban-elem">\
+            <div id="N" class="kanban-header" style="background-color: #abb2a7;">'+header+'</div>\
+            <div class="kanban-description">\
+                <p>'+desc+'</p>\
+            </div>\
+            <div class="delete">\
+                <a id="delete" href="#">Delete</a>\
+            </div>\
+        </div>');
+    }
+
+    $("#add-card-modal").dialog('close');
+
+});
+
+// delete card
+$(document).on("click", "#delete", function(){
+    elemid = $(this).parents().eq(1).children(":first").attr('id');
+
+    elem = $(this).parents().eq(1);
+    elem.remove();
+
+    // send request to delete card from database - not most efficient
+    // to do each time but TIME CONSTRANTS
+    $.ajax({
+      type: "POST",
+      contentType: "application/json; charset=utf-8",
+      url: "/delete",
+      data: elemid,
+      success: function () {
+        // logged successful card saving to console
+        console.log("Card successfully deleted");
+        },
+      dataType: "json"
+    });
+});
+
+
+// open model to add a card
+$(document).on("click", "#add", function(){
+    $('#add-card-modal').dialog('open');
+});
+
+// save cards
+$(document).on("click", "#save", function(){
+    saveCards(0);
+});
+
+$(document).on("click", "#logout", function(){
+    // trigger autosave when user logs out
+    // logout option flag added
+    saveCards(1);
+
+});
+</script>
+{% endblock %}

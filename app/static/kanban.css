@@ -1,0 +1,208 @@
+html, body{
+  width: 100%;
+  height: 100%;
+  background: url(images/circles-light.png) repeat fixed;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 200;
+}
+
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+a:focus {
+    outline: none;
+}
+
+button, span {
+    outline: none;
+}
+
+/* Header */
+header {
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    background: #cacdd1;
+    z-index: 1000;
+}
+
+.header {
+    float: right;
+    width: 300px;
+    height: 100%;
+    display: table;
+}
+
+.header-elem {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: right;
+    padding-right: 25px;
+}
+
+/* Page content */
+#page-content {
+    clear: both;
+    position: absolute;
+    height: calc(100% - 80px);
+    width: 100%;
+    top: 80px;
+}
+
+/* Login */
+.login{
+  position: relative;
+  top: 50%;
+  width: 300px;
+  display: table;
+  margin: -150px auto 0 auto;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.legend{
+  position: relative;
+  display: block;
+  background: #FF7052;
+  padding: 15px;
+  color: #fff;
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.input{
+  position: relative;
+  width: 90%;
+  margin: 15px auto;
+}
+
+.input > input{
+  width: 100%;
+  clear: both;
+}
+
+input[type=text],
+input[type=password] {
+    box-sizing : border-box;
+    border-radius:5px;
+      -moz-border-radius:5px;
+      -webkit-border-radius:5px;
+    box-shadow: inset none;
+    -webkit-box-shadow: inset none;
+}
+
+.login > label{
+  margin-left: 15px;
+}
+
+
+.button {
+    background-color: #FF7052;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+/* Error messages */
+.error {
+    margin-left: 15px;
+    color: red;
+}
+
+/* KANBAN */
+.kanban-container {
+    height: calc(100% - 160px);
+    width: 100%;
+    position: relative;
+}
+
+.kanban-column {
+    max-height: 100%;
+    float: left;
+}
+
+.kanban-elem {
+    background: rgb(186, 190, 196, 0.7);
+    background: rgba(186, 190, 196, 0.7);
+    height: 100px;
+    width: 90%;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+.kanban-header {
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    background-color: #4286f4;
+    text-align: center;
+    font-size: 1.2em;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.kanban-description{
+    padding-left: 5px;
+    padding-right: 5px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.tilt {
+  transform: rotate(3deg);
+  -moz-transform: rotate(3deg);
+  -webkit-transform: rotate(3deg);
+}
+
+.delete {
+    float: right;
+    margin-right: 15px;
+}
+
+/* add card */
+.ui-widget-header {
+    background: #FF7052;
+}
+
+textarea {
+    width: 100%;
+    clear: both;
+    resize: none;
+    margin: -1px;
+    padding: 0;
+    border-width: 1px;
+    box-sizing : border-box;
+    border-radius:5px;
+      -moz-border-radius:5px;
+      -webkit-border-radius:5px;
+    box-shadow: inset none;
+    -webkit-box-shadow: inset none;
+    overflow: auto;
+}
+
+.dropdown {
+    width: 100%;
+    clear: both;
+}
+
+
+/* footer */
+.footer{
+    position: fixed;
+    left: 10px;
+    bottom: 0;
+}

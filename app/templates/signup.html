@@ -1,0 +1,28 @@
+{% extends "master.html" %}
+
+{% block title %} Sign up {% endblock %}
+
+{% block header %}
+<div class="header-elem">Already have an account? <a href="{{ url_for('login') }}">Log in here</a></div>
+{% endblock %}
+
+{% block content %}
+<form class="login" method="POST" action="/signup">
+    <legend class="legend">Sign Up</legend>
+    {% if error %}
+        <p class=error>
+            <strong>Error:</strong> {{ error }}
+        </p>
+    {% endif %}
+    {{ form.hidden_tag() }}
+    {{ form.email.label }}
+    <div class="input">
+        {{ form.email(size=20) }}
+    </div>
+    {{ form.password.label }}
+    <div class="input">
+        {{ form.password(size=20) }}
+    </div>
+    <input class="button" style="float: right; margin: 5px;" type="submit" value="Sign Up">
+</form>
+{% endblock %}
