@@ -3,14 +3,12 @@
 
 A fully functional Kanban app with user accounts using Flask, HTML, CSS & Javascript. It uses the frontend developed [here](https://github.com/gwpicard/basic-kanban). The app also comes with unit tests to validate the functionality of app routes.
 
-<p align="left">
-  <img src="./example1.png" alt="Kanban login"
-       width="300">
+<p align="center">
+<b>Kanban app main screen</b>
 </p>
 
-<p align="left">
-  <img src="./example2.png" alt="Kanban main page"
-       width="300">
+<p align="center">
+<img src="./example1.png" alt="Kanban main page" width="500">
 </p>
 
 ## Install Prerequisites
