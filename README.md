@@ -8,7 +8,7 @@ A fully functional Kanban app with user accounts using Flask, HTML, CSS & Javasc
 </p>
 
 <p align="center">
-<img src="./example1.png" alt="Kanban main page" width="500">
+<img src="./example.png" alt="Kanban main page" width="500">
 </p>
 
 ## Install Prerequisites
