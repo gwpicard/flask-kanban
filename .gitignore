@@ -1,6 +1,9 @@
 # OS files
 .DS_Store
 
+# database files
+*.db
+
 __pycache__/
 
 # Environments
@@ -11,4 +14,3 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-
