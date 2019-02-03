@@ -32,7 +32,7 @@ python3 run.py
 
 ## Logging into the app
 
-A default user accounts will be created after running `dummy.py`, you can log in with the following info:
+A default user account will be created after running `dummy.py`, you can log in with the following info:
 
 ```
 email: test@gmail.com
