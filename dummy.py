@@ -8,7 +8,7 @@ import hashlib
 db.create_all()
 
 password_1 = "12345"
-hash_p_1 = sha256_crypt.encrypt(password_1)
+hash_p_1 = sha256_crypt.hash(password_1)
 
 # create dummy accounts
 dummy_users = [
