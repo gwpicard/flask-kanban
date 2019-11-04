@@ -4,6 +4,9 @@
 # database files
 *.db
 
+# coverage files
+.coverage
+
 __pycache__/
 
 # Environments
