@@ -1,7 +1,7 @@
 
 # Flask Kanban
 
-A fully-functional Kanban app with user accounts using Flask, HTML, CSS & Javascript. The app also comes with unit tests to validate the functionality of app routes.
+A fully-functional Kanban app with user accounts using Flask, HTML, CSS & JQuery. The app also comes with unit tests to validate the functionality of app routes.
 
 <p align="center">
 <b>Kanban app main screen</b>
