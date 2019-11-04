@@ -47,7 +47,7 @@ def register():
             else:
                 password = form.password.data
                 # safely store hashed password
-                hash_password = sha256_crypt.encrypt(password)
+                hash_password = sha256_crypt.hash(password)
                 newuser = User(form.email.data, hash_password)
                 db.session.add(newuser)
                 db.session.commit()
